@@ -4,6 +4,7 @@ struct Queue {
     struct LinkedList* queue;
 
     void (*enqueue)(void* data, int dataLen, struct Queue* queue);
+    void (*pop)(struct Queue* queue);
     void* (*dequeue)(struct Queue* queue);
 };
 

@@ -5,10 +5,8 @@
 
 #include "server.h"
 
-struct Server* server_constructor(int domain, int protocol, int service, unsigned long interface, int port, int backlog, void(*launch)(struct Server* server)) {
+struct Server* server_constructor(int domain, int protocol, int service, unsigned long interface, int port, int backlog) {
     struct Server* server = calloc(1, sizeof(struct Server));
-
-    server->launch = launch;
 
     server->domain = domain;
     server->protocol = protocol;

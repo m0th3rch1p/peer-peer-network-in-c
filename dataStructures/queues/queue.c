@@ -6,7 +6,7 @@
 
 void enqueue (void* data, int dataLen, struct Queue* queue);
 void* dequeue (struct Queue* queue);
-
+void pop (struct Queue* queue);
 struct Queue* queue_constructor () {
     struct Queue* queue = (struct Queue*) calloc(1, sizeof(struct Queue));
     if(!queue) {
@@ -16,6 +16,7 @@ struct Queue* queue_constructor () {
 
     queue->queue = linked_list_constructor();
     queue->enqueue = enqueue;
+    queue->pop = pop;
     queue->dequeue = dequeue;
     return queue;
 }
@@ -29,8 +30,15 @@ void enqueue (void* data, int dataLen, struct Queue* queue) {
     queue->queue->insert(queue->queue->length, data, dataLen, queue->queue);
 }
 
-void* dequeue (struct Queue* queue) {
-    void* data = queue->queue->search(0, queue->queue);
+void pop (struct Queue* queue) {
     queue->queue->remove(0, queue->queue);
+}
+
+void* dequeue (struct Queue* queue) {
+    if (!queue->queue->head) return NULL;
+
+    void* data = queue->queue->search(0, queue->queue);
     return data;
 }
+
+

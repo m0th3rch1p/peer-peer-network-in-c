@@ -46,6 +46,7 @@ struct LinkedListNode* linked_list_node_constructor (void * data, int data_len) 
 }
 
 struct LinkedListNode* iterate_list (int index, struct LinkedList* list) {
+    printf("iterating list index: %d\n", index);
     if (index > list->length) {
         fprintf(stderr, "index is out of bounds\n");
         return NULL;
@@ -53,14 +54,11 @@ struct LinkedListNode* iterate_list (int index, struct LinkedList* list) {
 
     int i = 0;
     struct LinkedListNode* cursor = list->head;
-    while (cursor) {
-        if (i > index) break;
-        else if (i == index) return cursor;
-
+    while (index > 0) {
         cursor = cursor->next;
-        i++;
+        index--;
     }
-    return NULL;
+    return cursor;
 }
 
 void insert_linked_list (int index, void* data, int dataLen, struct LinkedList* list) {
@@ -73,18 +71,18 @@ void insert_linked_list (int index, void* data, int dataLen, struct LinkedList* 
             node->next = list->head;
             list->head = node;
         }
-        return;
-    }
+    } else {
+        struct LinkedListNode *cursor = iterate_list(index - 1, list);
+        if (cursor == NULL) {
+            fprintf(stderr, "Error inserting node\n");
+            return;
+        }
 
-    struct LinkedListNode *cursor = iterate_list(index - 1, list);
-    if (cursor == NULL) {
-        fprintf(stderr, "Error inserting node\n");
-        return;
+        list->length++;
+        node = linked_list_node_constructor(data, dataLen);
+        cursor->next = node;
     }
-
     list->length++;
-    node = linked_list_node_constructor(data, dataLen);
-    cursor->next = node;
 }
 
 void remove_linked_list (int index, struct LinkedList* list) {
@@ -96,7 +94,7 @@ void remove_linked_list (int index, struct LinkedList* list) {
     } else {
         struct LinkedListNode *cursor = iterate_list(index - 1, list);
         if (cursor == NULL) {
-            fprintf(stderr, "Error inserting node\n");
+            fprintf(stderr, "Error removing node\n");
             return;
         }
     
@@ -113,9 +111,11 @@ void remove_linked_list (int index, struct LinkedList* list) {
 void* search_linked_list (int index, struct LinkedList* list) {
     struct LinkedListNode *cursor = iterate_list(index, list);
     if (cursor == NULL) {
-        fprintf(stderr, "Error inserting node\n");
+        fprintf(stderr, "Error searching node\n");
         return NULL;
     }
+
+
 
     return cursor->node->data;
 }

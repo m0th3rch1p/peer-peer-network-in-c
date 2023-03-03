@@ -1,7 +1,8 @@
-#include "../dataStructures/dictionaries_tree/dictionary.h"
-
 #ifndef HTTP_REQUEST_DEF
 #define HTTP_REQUEST_DEF
+
+#include "../../dataStructures/dictionaries_tree/dictionary.h"
+
 enum HTTPMethods {
     GET,
     POST,

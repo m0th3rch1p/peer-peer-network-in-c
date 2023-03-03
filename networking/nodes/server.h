@@ -11,8 +11,7 @@ struct Server {
     int socket;
 
     struct sockaddr_in address;
-    void (*launch)(struct Server* server);
 };
 
-struct Server* server_constructor(int domain, int protocol, int service, unsigned long interface, int port, int backlog, void(*launch)(struct Server* server));
+struct Server* server_constructor(int domain, int protocol, int service, unsigned long interface, int port, int backlog);
 void server_deconstructor(struct Server* server);
